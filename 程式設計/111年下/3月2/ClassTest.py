@@ -12,5 +12,5 @@ class Person:
         self.__name=newName
     
     @name.getter
-    def gerName(self):
+    def getName(self):
         return self.__name
