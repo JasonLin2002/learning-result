@@ -37,8 +37,6 @@ def number(n):
             number_str = number_str[0:-1] + str(n)
             flag = True
 
-
-
 flag_dot = True
 def dot():
     global flag
@@ -49,8 +47,6 @@ def dot():
         number_str = number_str+"."
         flag = True
         flag_dot = False
-
-
 
 flag_refresh = False
 def operation(n):
@@ -72,9 +68,7 @@ def operation(n):
         flag = False
         flag_dot = False
         flag_refresh = True
-        
 
-        
 button1 = Button(window, text="1", font="Arial 30 bold", command=lambda : number(1))
 button1.grid(row=1, column=0, sticky=NSEW)
 
