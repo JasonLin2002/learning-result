@@ -2,7 +2,7 @@ import tkinter as tk
 
 window = tk.Tk()
 window.title('oxxo.studio')
-window.geometry('280x200')
+window.geometry('400x400')
 
 a = 0
 num = tk.StringVar()
@@ -36,13 +36,13 @@ def test(e):
         num.set(a)
 
 
-btn_7 = tk.Button(window, text='7', font=('Arial',20), width=2, command=lambda: test(7))
+btn_7 = tk.Button(window, text='7', font=('Arial',20), width=2,height=3, command=lambda: test(7))
 btn_7.place(x=5, y=45)
-btn_8 = tk.Button(window, text='8', font=('Arial',20), width=2, command=lambda: test(8))
+btn_8 = tk.Button(window, text='8', font=('Arial',20), width=2,height=3, command=lambda: test(8))
 btn_8.place(x=65, y=45)
-btn_9 = tk.Button(window, text='9', font=('Arial',20), width=2, command=lambda: test(9))
+btn_9 = tk.Button(window, text='9', font=('Arial',20), width=2,height=3, command=lambda: test(9))
 btn_9.place(x=125, y=45)
-btn_a = tk.Button(window, text='+', font=('Arial',20), width=2, command=lambda: test('+'))
+btn_a = tk.Button(window, text='+', font=('Arial',20), width=2,height=3, command=lambda: test('+'))
 btn_a.place(x=185, y=45)
 
 btn_4 = tk.Button(window, text='4', font=('Arial',20), width=2, command=lambda: test(4))
