@@ -14,7 +14,7 @@ def calculate():
         lab1["text"] = str(v1 / v2)
 
 root=Tk()
-root.title ("Entry Demo")
+root.title ('my calculator')
 root.geometry ("500x100+200+100")
 root.rowconfigure (0, weight=1)
 root.columnconfigure (0, weight=1)
