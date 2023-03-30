@@ -13,7 +13,7 @@ $pw = $_POST["pw"];
 </head>
 <body>
     <h2>Your id is <?php echo $id; ?></h2>
-    <h2>Your id pw <?php echo $pw; ?></h2>
+    <h2>Your id password is <?php echo $pw; ?></h2>
 
 </body>
 </html>
