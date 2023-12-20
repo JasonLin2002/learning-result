@@ -7,8 +7,10 @@ name = "pypi"
 matplotlib = "*"
 networkx = "*"
 numpy = "*"
+scipy = "*"
 
 [dev-packages]
+ipykernel = "*"
 
 [requires]
 python_version = "3.11"
