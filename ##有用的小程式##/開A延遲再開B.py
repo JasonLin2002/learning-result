@@ -13,8 +13,7 @@ if sys.argv[-1] != ASADMIN:
     sys.exit(0)
 
 # 指定第一個EXE檔案路徑
-exe_path1 = r'C:\Users\jk121\Desktop\图像识别v5.2（把我拖到桌面）\点我启动.exe'
-
+exe_path1 = r'C:\Users\jk121\Desktop\点我启动.exe.lnk'
 # 執行第一個EXE檔案
 subprocess.Popen(exe_path1)
 
