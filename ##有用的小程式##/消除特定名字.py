@@ -1,8 +1,8 @@
 import os
 
 # 指定資料夾路徑和要移除的特定字彙
-folder_path = r'\path'
-common_word = ' 老師'
+folder_path = r'D:\照片\H漫\分類'
+common_word = ' - 捷徑'
 
 # 遍歷指定的資料夾及其內容
 for root, dirs, files in os.walk(folder_path):
