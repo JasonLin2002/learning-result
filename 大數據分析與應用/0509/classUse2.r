@@ -1,5 +1,3 @@
-Sys.setlocale("LC_ALL", "English_United States.1252")
-
 install.packages("randomForest")
 
 library(randomForest)

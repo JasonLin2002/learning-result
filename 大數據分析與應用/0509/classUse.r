@@ -1,5 +1,3 @@
-Sys.setlocale("LC_ALL", "English_United States.1252")
-
 play_data <- read.csv("C:\\Users\\jk121\\Documents\\Code\\learning-result\\大數據分析與應用\\0509\\DTree.csv", header = TRUE, sep = ",")
 
 summary(play_data)
