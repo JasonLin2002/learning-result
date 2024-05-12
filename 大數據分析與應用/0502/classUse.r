@@ -1,4 +1,5 @@
 install.packages("ISLR")
 library(ISLR)
-data = Default  # load dataset
+data <- Default
+
 summary(data)
