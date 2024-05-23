@@ -31,7 +31,7 @@ links <- items %>%
   xml_text()
 
 links[1]
-# [1] "https://news.google.com/rss/articles/CBMiWWh0dHBzOi8vZWx1Y3RyZWsuY28vMjAyNC8wNS8yMi9gZWVwLWNvb"
+
 
 # 提取描述
 descriptions <- items %>%
@@ -39,7 +39,6 @@ descriptions <- items %>%
   xml_text()
 
 descriptions[1]
-# [1] "<a href=\"https://news.google.com/rss/articles/CBMiWWh0dHBzOi8vZWx1Y3RyZWsuY28vMjAyNC8wNS8yMi9gZWVwLWNvb\">Jeep compares electric Wagoneer S to Tesla's Model Y in new teaser video</a>&nbsp;&nbsp;<font color=\""
 
 # 移除 HTML 標籤的函數
 remove_html_tags <- function(html_string) {
@@ -54,5 +53,28 @@ remove_html_tags <- function(html_string) {
 clean_descriptions <- sapply(descriptions, remove_html_tags, USE.NAMES = FALSE)
 
 clean_descriptions[1]
-# [1] "Jeep compares electric Wagoneer S to Tesla's Model Y in new teaser video Electrek.co"
+
+#===============================================================================
+
+# 提取發佈日期
+pub_dates <- items %>%
+  xml_find_all(".//pubDate") %>%
+  xml_text()
+
+pub_dates[1]
+# [1] "Wed, 22 May 2024 15:39:00 GMT"
+
+# 創建包含提取信息的資料框
+tesla_news <- data.frame(
+  title = titles,
+  link = links,
+  description = clean_descriptions,
+  pub_date = pub_dates,
+  stringsAsFactors = FALSE
+)
+
+# 打印資料框的前幾行
+print(head(tesla_news))
+
+#===============================================================================
 
