@@ -114,12 +114,13 @@ function StartExam() {
 
 
 //載入答案
-function LoadSolution() {
-
-
+function LoadSolution(){
+    SolutionList = []
+    for(i in ExamRecord) {
+        SolutionList.push(ExamRecord[i].答案);
 }
-
-
+console.log(SolutionList)
+}
 
 function StartExam0() {
 
@@ -140,15 +141,49 @@ function StartExam4() {
 
 //讀取Qindex 題目資訊產生HTML 
 function LoadQuestion(Qindex) {
+    let QuestionHtml = '';
+    let OtpList = ["A", "B", "C", "D"];
+    let OtpLabel = ["(a)","(b)","(c)","(d)"];
 
+    let Record = ExamRecord[Qindex];
 
+    QuestionHtml += `<hr/>
+    <H3>${Record.序號 + '.' + Record.題目}</H3>`;
+    for (i in OtpList) {
+        QuestionHtml += `<input id="${OtpList[i] + Record.序號}" name="GroupOpt${Record.序號}" type="radio"/>
+        <label class="RadioOpt">${OtpLabel[i] + Record["選項"+OtpList[i]]}</label>
+        <br/>`;
+    }
+    QuestionHtml += `<hr/>`;
+    console.log(QuestionHtml);
+    QuesNumber.innerHTML = (Qindex + 1) + "/" + ExamRecord.length;
+    QuestionList.innerHTML = QuestionHtml;
 }
 
 //顯示下一題
 function NextQuestion() {
+    let OtpList = ["A", "B", "C", "D"];
 
+    let bChecked = false;
+    let Record = ExamRecord[QuesIndex];
 
+    for (i in OtpList) {
+        if(document.getElementById(OtpList[i] + Record.序號).checked === true) {
+            console.log(OtpList[i] + Record.序號);
+            bChecked = true
+            AnswerList.push(i);
 
+            break;
+        } 
+    }
+    if (bChecked) {
+        QuesIndex++;
+        LoadQuestion(QuesIndex);
+
+    } else {
+        alert("你還沒選答案喔！");
+
+    }
 }
 
 
@@ -158,5 +193,17 @@ function CalculateScore() {
 
     //AnswerList   [1,0,2,4,.......] ;
     //SolutionList ["B","A","C","C",.......] ;
+    let Otplist = ["A","B","C","D"];
 
+    score = 0.0;
+    for(i in SolutionList) {
+
+        let ans = AnswerList[i];
+        let sol = SolutionList[i];
+
+        //判斷答案是否正確
+        if (Otplist[ans] === sol){
+            score += QuesPoints ;
+        }
+    }
 }

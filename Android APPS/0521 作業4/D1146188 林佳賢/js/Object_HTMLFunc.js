@@ -207,8 +207,8 @@ function objToHtmlTable2(Obj) {
 
     let Headtemplate =
         `<tr>
-         ${Headers.map(item => `<th>${item}</th>`).join('')}
-     </tr> 
+        ${Headers.map(item => `<th>${item}</th>`).join('')}
+    </tr> 
     `;
 
     console.log(Headtemplate);
