@@ -1,27 +1,28 @@
-# install necessary library
+# 安裝必要的套件
 install.packages("xml2")
 install.packages("dplyr")
 install.packages("tidyverse")
 install.packages("jsonlite")
 install.packages("rvest")
 
-# Load necessary libraries
+# 載入必要的套件
 library(xml2)
 library(dplyr)
 library(tidyverse)
 library(rvest)
 
-# Define the RSS feed URL (example RSS feed about Tesla Model Y)
+# 定義 RSS feed URL（關於 Tesla Model Y 的範例 RSS feed）
 rss_url <- "https://news.google.com/rss/search?q=Tesla+Model+Y&hl=en-US&gl=US&ceid=US:en"
 
-# Read the RSS feed
+# 讀取 RSS feed
 rss_feed <- read_xml(rss_url)
 
-# Parse the RSS feed
+# 解析 RSS feed
 items <- rss_feed %>%
   xml_find_all("//item")
 
-items[1]
+# 確認 items 是否成功提取
+print(items[1])
 
 #===============================================================================
 
@@ -30,15 +31,16 @@ links <- items %>%
   xml_find_all(".//link") %>%
   xml_text()
 
-links[1]
-
+# 確認第一個連結
+print(links[1])
 
 # 提取描述
 descriptions <- items %>%
   xml_find_all(".//description") %>%
   xml_text()
 
-descriptions[1]
+# 確認第一個描述
+print(descriptions[1])
 
 # 移除 HTML 標籤的函數
 remove_html_tags <- function(html_string) {
@@ -52,7 +54,8 @@ remove_html_tags <- function(html_string) {
 # 將函數應用到所有描述中
 clean_descriptions <- sapply(descriptions, remove_html_tags, USE.NAMES = FALSE)
 
-clean_descriptions[1]
+# 確認清理後的第一個描述
+print(clean_descriptions[1])
 
 #===============================================================================
 
@@ -61,10 +64,18 @@ pub_dates <- items %>%
   xml_find_all(".//pubDate") %>%
   xml_text()
 
-pub_dates[1]
-# [1] "Wed, 22 May 2024 15:39:00 GMT"
+# 確認第一個發佈日期
+print(pub_dates[1])
 
 # 創建包含提取信息的資料框
+# 注意：這裡缺少 title 欄位的提取，需補充
+titles <- items %>%
+  xml_find_all(".//title") %>%
+  xml_text()
+
+# 確認第一個標題
+print(titles[1])
+
 tesla_news <- data.frame(
   title = titles,
   link = links,
@@ -75,6 +86,3 @@ tesla_news <- data.frame(
 
 # 打印資料框的前幾行
 print(head(tesla_news))
-
-#===============================================================================
-
