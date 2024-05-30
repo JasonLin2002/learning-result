@@ -28,7 +28,7 @@ print(items[1])
 
 # 提取連結
 links <- items %>%
-  xml_find_all(".//link") %>%
+  xml_find_first(".//link") %>%
   xml_text()
 
 # 確認第一個連結
@@ -89,108 +89,35 @@ print(head(tesla_news))
 
 #===============================================================================
 
-# 第一段程式碼
-links <- items %>%
-  xml_find_all(".//link") %>%
-  xml_text()
-
-# 第二段程式碼
-print(links[1])
-
-# 第三段程式碼
-descriptions <- items %>%
-  xml_find_all(".//description") %>%
-  xml_text()
-
-# 第四段程式碼
-print(descriptions[1])
-
-# 第五段程式碼
-# 移除 HTML 標籤的函數
-remove_html_tags <- function(html_string) {
-  # 解析 HTML 內容
-  parsed_html <- read_html(html_string)
-  # 提取文本內容
-  text_content <- html_text(parsed_html)
-  return(text_content)
-}
-
-# 第六段程式碼
-# 將函數應用到所有描述中
-clean_descriptions <- sapply(descriptions, remove_html_tags, USE.NAMES = FALSE)
-
-# 第七段程式碼
-print(clean_descriptions[1])
-
-#===============================================================================
-
-# 第一段程式碼
-pub_dates <- items %>%
-  xml_find_all(".//pubDate") %>%
-  xml_text()
-
-# 第二段程式碼
-print(pub_dates[1])
-
-# 第三段程式碼
-# 創建包含提取信息的資料框
-tesla_news <- data.frame(
-  title = titles,
-  link = links,
-  description = clean_descriptions,
-  pub_date = pub_dates,
-  stringsAsFactors = FALSE
-)
-
-# 第四段程式碼
-# 打印資料框的前幾行
-print(head(tesla_news))
-
-#===============================================================================
-
-# 第一段程式碼
 # 可選：將資料框保存為 CSV 檔案
 write.csv(tesla_news, "tesla_model_y_news.csv", row.names = FALSE)
 
 #===============================================================================
 
-# 第一段程式碼
+# 文字處理
 txt <- clean_descriptions[1]
-
-# 第二段程式碼
-txt
 
 # 將 txt 變數中的文字以空格為分隔符進行切分，並取得結果中的第一個元素
 tokens <- strsplit(txt, " ")[[1]]
 
 # 列印 tokens 變數的內容
 tokens
-# [1] "Jeep" "compares" "electric" "Wagoneer" "S" "to" "Tesla's" "Model" "Y" "in" "new" "teaser" "video" "Electrek.co"
 
 # 計算單字數量
 num_words <- length(tokens)
 
 # 列印 num_words 變數的內容
 num_words
-# [1] 13
-#===============================================================================
 
-# 第一段程式碼
-# remove punctuation
+# 移除標點符號
 tokens <- gsub("[[:punct:]]", "", tokens)
-
-# 第二段程式碼
 tokens
 
-# 第三段程式碼
-# convert to lowercase
+# 轉換為小寫
 tokens <- tolower(tokens)
-
-# 第四段程式碼
 tokens
 
-# 第五段程式碼
-# Remove stopwords
+# 移除停止詞
 stopwords <- c("the", "a", "an", "and", "or", "but", "on", "in", "at", "to", "for", "with", 
                "of", "by", "as", "is", "are", "was", "were", "be", "been", "am", "will", 
                "can", "could", "would", "should", "has", "have", "had", "do", "does", "did", 
@@ -198,8 +125,6 @@ stopwords <- c("the", "a", "an", "and", "or", "but", "on", "in", "at", "to", "fo
                "us", "you", "your", "i", "my", "me")
 
 tokens <- tokens[!tokens %in% stopwords]
-
-# 第六段程式碼
 tokens
 
 #===============================================================================
@@ -238,19 +163,23 @@ write.csv(dtm_df, "bag_of_words.csv", row.names = TRUE)
 
 #===============================================================================
 
-# 第一段程式碼
+# 安裝必要的套件
 install.packages("pdftools")
 install.packages("Rpoppler")
 install.packages("tm", dependencies = TRUE)
 install.packages("topicmodels")
 
-# 第二段程式碼
-# Load the CSV file
+# 載入必要的套件
+library(pdftools)
+library(Rpoppler)
+library(tm)
+library(topicmodels)
+
+# 載入 CSV 檔案
 file_path <- "tesla_model_y_news.csv"
 news_data <- read.csv(file_path, stringsAsFactors = FALSE)
 
-# 第三段程式碼
-# Check the structure of the data
+# 查看資料結構
 str(news_data)
 
 #===============================================================================
@@ -262,7 +191,7 @@ if (!"description" %in% colnames(news_data)) {
 stemmed_descriptions <- news_data %>%
   mutate(stemmed_description = sapply(description, function(x) {
     if (!is.na(x)) {
-      return(paste(stem_words(unlist(strsplit(x, "\\s+"))), collapse = " "))
+      return(paste(SnowballC::wordStem(unlist(strsplit(x, "\\s+"))), collapse = " "))
     } else {
       return(NA)
     }
@@ -271,7 +200,7 @@ stemmed_descriptions <- news_data %>%
 lemmatized_descriptions <- stemmed_descriptions %>%
   mutate(lemmatized_description = sapply(description, function(x) {
     if (!is.na(x)) {
-      return(paste(lemmatize_words(unlist(strsplit(x, "\\s+"))), collapse = " "))
+      return(paste(tm::lemmatizeWords(unlist(strsplit(x, "\\s+"))), collapse = " "))
     } else {
       return(NA)
     }
@@ -279,13 +208,9 @@ lemmatized_descriptions <- stemmed_descriptions %>%
 
 #===============================================================================
 
-# 第一段程式碼
-# Print the first few rows of the modified data frame
+# 打印資料框的前幾行
 print(head(lemmatized_descriptions))
 
 #===============================================================================
 
 write.csv(lemmatized_descriptions, "tesla_model_y_news_processed.csv", row.names = FALSE)
-
-#===============================================================================
-
